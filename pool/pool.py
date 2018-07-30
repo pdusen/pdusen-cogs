@@ -17,9 +17,16 @@ class Pool:
             await self.bot.say("You did it wrong!")
             return
 
+        success_threshold = match.group(2) or 6
+
         pool_size = match.group(1)
-        result = dice.roll(pool_size + 'd10s')
+        result = dice.roll(pool_size + 'd10s').reverse()
+        
+        successes = [i for i in result if i >= success_threshold]
+        failures = [i for i in result if i < success_threshold]
+
         await self.bot.say('Results: ' + dice.utilities.verbose_print(result))
+        await self.bot.say(str(len(successes)) + ' successes, ' + str(len(failures)) + ' failures')
 
 def setup(bot):
     bot.add_cog(Pool(bot))
