@@ -20,10 +20,11 @@ class Pool:
         success_threshold = match.group(2) or 6
 
         pool_size = match.group(1)
-        result = dice.roll(pool_size + 'd10s').reverse()
+        result = dice.roll(pool_size + 'd10s')
+        result.reverse()
 
         await self.bot.say('Results: ' + dice.utilities.verbose_print(result))
-        
+
         successes = [i for i in result if i >= success_threshold]
         failures = [i for i in result if i < success_threshold]
         await self.bot.say(str(len(successes)) + ' successes, ' + str(len(failures)) + ' failures')
