@@ -21,11 +21,11 @@ class Pool:
 
         pool_size = match.group(1)
         result = dice.roll(pool_size + 'd10s').reverse()
+
+        await self.bot.say('Results: ' + dice.utilities.verbose_print(result))
         
         successes = [i for i in result if i >= success_threshold]
         failures = [i for i in result if i < success_threshold]
-
-        await self.bot.say('Results: ' + dice.utilities.verbose_print(result))
         await self.bot.say(str(len(successes)) + ' successes, ' + str(len(failures)) + ' failures')
 
 def setup(bot):
