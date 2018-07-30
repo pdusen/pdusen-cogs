@@ -17,7 +17,7 @@ class Pool:
             await self.bot.say("You did it wrong!")
             return
 
-        pool_size = int(match.group(1))
+        pool_size = match.group(1)
         await self.bot.say('Results: ' + dice.roll(pool_size + 'd10'))
 
 def setup(bot):
