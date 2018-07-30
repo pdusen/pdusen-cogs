@@ -29,7 +29,11 @@ class Pool:
 
         successes = [i for i in result if i >= success_threshold]
         failures = [i for i in result if i < success_threshold]
+        ones = [i for i in result if i == 1]
+        tens = [i for i in result if i == 10]
+
         await self.bot.say(str(len(successes)) + ' successes, ' + str(len(failures)) + ' failures')
+        await self.bot.say(str(len(ones)) + ' ones, ' + str(len(tens)) + ' tens')
 
 def setup(bot):
     bot.add_cog(Pool(bot))
