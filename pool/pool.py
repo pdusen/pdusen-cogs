@@ -18,7 +18,7 @@ class Pool:
             return
 
         pool_size = match.group(1)
-        result = dice.roll(pool_size + 'd10')
+        result = dice.roll(pool_size + 'd10s')
         await self.bot.say('Results: ' + dice.utilities.verbose_print(result))
 
 def setup(bot):
