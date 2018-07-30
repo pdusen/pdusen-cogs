@@ -17,7 +17,9 @@ class Pool:
             await self.bot.say("You did it wrong!")
             return
 
-        success_threshold = match.group(2) or 6
+        success_threshold = 6
+        if match.group(2):
+            success_threshold = str(match.group(2))
 
         pool_size = match.group(1)
         result = dice.roll(pool_size + 'd10s')
