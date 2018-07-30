@@ -19,7 +19,7 @@ class Pool:
 
         success_threshold = 6
         if match.group(2):
-            success_threshold = str(match.group(2))
+            success_threshold = int(match.group(2))
 
         pool_size = match.group(1)
         result = dice.roll(pool_size + 'd10s')
