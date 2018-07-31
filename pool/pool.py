@@ -64,7 +64,7 @@ class Pool:
         await self.bot.say('  '.join(string_bits))
 
         if one_count > 0 and success_count == 0:
-            await self.bot.say('```diff\n- B O T C H E D\n```')
+            await self.bot.say('```diff\n- B O T C H E D -\n```')
         elif successes_remaining == 0:
             await self.bot.say('```css\n[FAILED]\n```')
         elif successes_remaining >= 5:
