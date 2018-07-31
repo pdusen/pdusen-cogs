@@ -5,6 +5,6 @@
     "SHORT" : "A Short description, appears on !cog list repo",
     "DESCRIPTION" : "A longer description, appears on !cog list repo cogname",
     "TAGS" : ["example", "tags", "list"],
-    "REQUIREMENTS" : ["dice", "pynacl"],
+    "REQUIREMENTS" : ["dice"],
     "HIDDEN" : false
 }
