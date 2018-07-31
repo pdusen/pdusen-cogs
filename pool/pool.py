@@ -66,7 +66,7 @@ class Pool:
         if one_count > 0 and success_count == 0:
             await self.bot.say('```diff\n- B O T C H E D -\n```')
         elif successes_remaining == 0:
-            await self.bot.say('```css\n[FAILED]\n```')
+            await self.bot.say('```css\n[ FAILED ]\n```')
         elif successes_remaining >= 5:
             await self.bot.say('```asciidoc\n= P H E N O M I N A L   S U C C E S S =\n```')
         elif successes_remaining == 4:
