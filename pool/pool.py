@@ -64,19 +64,19 @@ class Pool:
         await self.bot.say('  '.join(string_bits))
 
         if one_count > 0 and success_count == 0:
-            await self.bot.say('Botch')
+            await self.bot.say('```diff\n- B O T C H E D\n```')
         elif successes_remaining == 0:
-            await self.bot.say('Failure')
+            await self.bot.say('```css\n[FAILED]\n```')
         elif successes_remaining >= 5:
-            await self.bot.say('Phenomenal success!')
+            await self.bot.say('```asciidoc\n= P H E N O M I N A L   S U C C E S S =\n```')
         elif successes_remaining == 4:
-            await self.bot.say('Exceptional success!')
+            await self.bot.say('```cs\n" EXCEPTIONAL SUCCESS "\n```')
         elif successes_remaining == 3:
-            await self.bot.say('Complete success!')
+            await self.bot.say('```diff\n+ Complete Success +\n```')
         elif successes_remaining == 2:
-            await self.bot.say('Moderate success.')
+            await self.bot.say('```bash\n# Moderate Success #\n```')
         elif successes_remaining == 1:
-            await self.bot.say('Marginal success...')
+            await self.bot.say('```\nMarginal success...\n```')
 
 def setup(bot):
     bot.add_cog(Pool(bot))
