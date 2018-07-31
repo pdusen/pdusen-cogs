@@ -1,4 +1,5 @@
 import discord, re, dice
+from collections import deque
 from discord.ext import commands
 
 class Pool:
@@ -24,16 +25,58 @@ class Pool:
         pool_size = match.group(1)
         result = dice.roll(pool_size + 'd10s')
         result.reverse()
+        rolls = deque(result)
 
-        await self.bot.say('Results: ' + dice.utilities.verbose_print(result))
+        one_count = sum(1 for i in rolls if i == 1)
+        success_count = sum(1 for i in rolls if i >= success_threshold)
 
-        successes = [i for i in result if i >= success_threshold]
-        failures = [i for i in result if i < success_threshold]
-        ones = [i for i in result if i == 1]
-        tens = [i for i in result if i == 10]
+        removed_successes = []
+        removed_ones = []
+        remaining_successes = []
+        remaining_failures = []
 
-        await self.bot.say(str(len(successes)) + ' successes, ' + str(len(failures)) + ' failures')
-        await self.bot.say(str(len(ones)) + ' ones, ' + str(len(tens)) + ' tens')
+        while len(rolls) > 1 and rolls[0] >= success_threshold and rolls[-1] == 1:
+            removed_successes.append(rolls.popleft())
+            removed_ones.append(rolls.pop())
+
+        while len(rolls) > 0 and rolls[0] >= success_threshold:
+            remaining_successes.append(rolls.popleft())
+
+        while len(rolls) > 0:
+            remaining_failures.append(rolls.popleft())
+
+        successes_remaining = len(remaining_successes)
+
+        string_bits = []
+
+        for roll in removed_successes:
+            string_bits.append('~~{}~~'.format(roll))
+
+        for roll in remaining_successes:
+            string_bits.append('**{}**'.format(roll))
+
+        for roll in remaining_failures:
+            string_bits.append(str(roll))
+
+        for roll in removed_ones:
+            string_bits.append('~~1~~')
+
+        await self.bot.say('  '.join(string_bits))
+
+        if one_count > 0 and success_count == 0:
+            await self.bot.say('Botch')
+        elif successes_remaining == 0:
+            await self.bot.say('Failure')
+        elif successes_remaining >= 5:
+            await self.bot.say('Phenomenal success!')
+        elif successes_remaining == 4:
+            await self.bot.say('Exceptional success!')
+        elif successes_remaining == 3:
+            await self.bot.say('Complete success!')
+        elif successes_remaining == 2:
+            await self.bot.say('Moderate success.')
+        elif successes_remaining == 1:
+            await self.bot.say('Marginal success...')
 
 def setup(bot):
     bot.add_cog(Pool(bot))
