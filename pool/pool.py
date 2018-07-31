@@ -6,7 +6,7 @@ class Pool:
     """My custom cog that does stuff!"""
 
     def __init__(self, bot):
-        self.pattern = re.compile('^(\d*)\!?(\d)*$')
+        self.pattern = re.compile('^(\d*)\!?(\d*)$')
         self.bot = bot
 
     @commands.command()
