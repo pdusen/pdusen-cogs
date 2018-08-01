@@ -9,14 +9,18 @@ class Pool:
         self.pattern = re.compile('^(\d*)\!?(\d*)$')
         self.bot = bot
 
-    @commands.command()
-    async def pool(self, *, arg):
+    @commands.command(pass_context=True)
+    async def pool(self, ctx, *, arg):
         """This does stuff!"""
-
         match = self.pattern.match(arg)
         if not match:
             await self.bot.say("You did it wrong!")
             return
+
+        output_strings = []
+        output_strings.append('Dice roll called by ')
+        output_strings.append(ctx.author.name)
+        output_strings.append('.\n')
 
         success_threshold = 6
         if match.group(2):
@@ -60,8 +64,6 @@ class Pool:
 
         for roll in removed_ones:
             string_bits.append('~~1~~')
-
-        output_strings = []
 
         output_strings.append('  '.join(string_bits))
         output_strings.append('\n');
