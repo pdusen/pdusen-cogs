@@ -61,22 +61,27 @@ class Pool:
         for roll in removed_ones:
             string_bits.append('~~1~~')
 
-        await self.bot.say('  '.join(string_bits))
+        output_strings = []
+
+        output_strings.append('  '.join(string_bits))
+        output_strings.append('\n');
 
         if one_count > 0 and success_count == 0:
-            await self.bot.say('```diff\n- B O T C H E D -\n```')
+            output_strings.append('```diff\n- B O T C H E D -\n```')
         elif successes_remaining == 0:
-            await self.bot.say('```css\n[ FAILED ]\n```')
+            output_strings.append('```css\n[ FAILED ]\n```')
         elif successes_remaining >= 5:
-            await self.bot.say('```asciidoc\n= P H E N O M I N A L   S U C C E S S =\n```')
+            output_strings.append('```asciidoc\n= P H E N O M I N A L   S U C C E S S =\n```')
         elif successes_remaining == 4:
-            await self.bot.say('```cs\n" EXCEPTIONAL SUCCESS "\n```')
+            output_strings.append('```cs\n" EXCEPTIONAL SUCCESS "\n```')
         elif successes_remaining == 3:
-            await self.bot.say('```diff\n+ Complete Success +\n```')
+            output_strings.append('```diff\n+ Complete Success +\n```')
         elif successes_remaining == 2:
-            await self.bot.say('```bash\n# Moderate Success #\n```')
+            output_strings.append('```bash\n# Moderate Success #\n```')
         elif successes_remaining == 1:
-            await self.bot.say('```\nMarginal success...\n```')
+            output_strings.append('```\nMarginal success...\n```')
+
+        await self.bot.say(''.join(output_strings))
 
 def setup(bot):
     bot.add_cog(Pool(bot))
