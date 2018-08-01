@@ -19,7 +19,7 @@ class Pool:
 
         output_strings = []
         output_strings.append('Dice roll called by ')
-        output_strings.append(ctx.author.name)
+        output_strings.append(ctx.message.author.name)
         output_strings.append('.\n')
 
         success_threshold = 6
