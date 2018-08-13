@@ -26,7 +26,12 @@ class Pool:
         if match.group(2):
             success_threshold = int(match.group(2))
 
-        pool_size = match.group(1)
+        pool_size = match.group(1) 
+
+        if int(pool_size) > 50:
+            await self.bot.say('ERROR: Invalid dice pool size; the maximum is 50!')
+            return
+
         result = dice.roll(pool_size + 'd10s')
         result.reverse()
         rolls = deque(result)
