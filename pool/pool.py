@@ -10,7 +10,7 @@ class Pool:
         self.bot = bot
 
     @commands.command(pass_context=True)
-    async def dice(self, ctx, *, arg):
+    async def diceroll(self, ctx, *, arg):
         """This rolls dice normally"""
         output_strings = []
         try:
