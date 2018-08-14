@@ -82,11 +82,11 @@ class Pool:
         elif successes_remaining >= 5:
             output_strings.append('```asciidoc\n= P H E N O M I N A L   S U C C E S S  ({}) =\n```'.format(remaining_successes_count))
         elif successes_remaining == 4:
-            output_strings.append('```cs\n" EXCEPTIONAL SUCCESS ({})"\n```'.format(remaining_successes_count))
+            output_strings.append('```cs\n" EXCEPTIONAL SUCCESS ({}) "\n```'.format(remaining_successes_count))
         elif successes_remaining == 3:
-            output_strings.append('```diff\n+ Complete Success ({})+\n```'.format(remaining_successes_count))
+            output_strings.append('```diff\n+ Complete Success ({}) +\n```'.format(remaining_successes_count))
         elif successes_remaining == 2:
-            output_strings.append('```bash\n# Moderate Success ({}}#\n```'.format(remaining_successes_count))
+            output_strings.append('```bash\n# Moderate Success ({}} #\n```'.format(remaining_successes_count))
         elif successes_remaining == 1:
             output_strings.append('```\nMarginal success... ({})\n```'.format(remaining_successes_count))
 
