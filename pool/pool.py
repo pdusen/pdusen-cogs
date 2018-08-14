@@ -10,98 +10,109 @@ class Pool:
         self.bot = bot
 
     @commands.command(pass_context=True)
-    async def dice(self, ctx, *, arg):
+    async def roll(self, ctx, *, arg):
         """This rolls dice normally"""
-        result = dice.roll(arg)
-
         output_strings = []
-        output_strings.append('Dice roll called by ')
-        output_strings.append(ctx.message.author.name)
-        output_strings.append('.\n')
-        output_strings.append('Result: {}'.format(str(result)))
+        try:
+            result = dice.roll(arg)
+
+            output_strings.append('Dice roll called by ')
+            output_strings.append(ctx.message.author.name)
+            output_strings.append('.\n')
+            output_strings.append('Result: {}'.format(str(result)))
+        except Exception as error:
+            output_strings.append('\n')
+            output_strings.append(str(error))
+        finally:
+            await self.bot.say(''.join(output_strings))
+
 
     @commands.command(pass_context=True)
     async def pool(self, ctx, *, arg):
-        """This does stuff!"""
-        match = self.pattern.match(arg)
-        if not match:
-            await self.bot.say("You did it wrong!")
-            return
-
+        """Rolls a WoD-style Dice Pool of 10-sided dice"""
         output_strings = []
-        output_strings.append('Dice roll called by ')
-        output_strings.append(ctx.message.author.name)
-        output_strings.append('.\n')
+        try:
+            match = self.pattern.match(arg)
+            if not match:
+                await self.bot.say("You did it wrong!")
+                return
 
-        success_threshold = 6
-        if match.group(2):
-            success_threshold = int(match.group(2))
+            output_strings.append('Dice roll called by ')
+            output_strings.append(ctx.message.author.name)
+            output_strings.append('.\n')
 
-        pool_size = match.group(1) 
+            success_threshold = 6
+            if match.group(2):
+                success_threshold = int(match.group(2))
 
-        if int(pool_size) > 50:
-            await self.bot.say('ERROR: Invalid dice pool size; the maximum is 50!')
-            return
+            pool_size = match.group(1) 
 
-        result = dice.roll(pool_size + 'd10s')
-        result.reverse()
-        rolls = deque(result)
+            if int(pool_size) > 50:
+                await self.bot.say('ERROR: Invalid dice pool size; the maximum is 50!')
+                return
 
-        one_count = sum(1 for i in rolls if i == 1)
-        success_count = sum(1 for i in rolls if i >= success_threshold)
+            result = dice.roll(pool_size + 'd10s')
+            result.reverse()
+            rolls = deque(result)
 
-        removed_successes = []
-        removed_ones = []
-        remaining_successes = []
-        remaining_failures = []
+            one_count = sum(1 for i in rolls if i == 1)
+            success_count = sum(1 for i in rolls if i >= success_threshold)
 
-        while len(rolls) > 1 and rolls[0] >= success_threshold and rolls[-1] == 1:
-            removed_successes.append(rolls.popleft())
-            removed_ones.append(rolls.pop())
+            removed_successes = []
+            removed_ones = []
+            remaining_successes = []
+            remaining_failures = []
 
-        while len(rolls) > 0 and rolls[0] >= success_threshold:
-            remaining_successes.append(rolls.popleft())
+            while len(rolls) > 1 and rolls[0] >= success_threshold and rolls[-1] == 1:
+                removed_successes.append(rolls.popleft())
+                removed_ones.append(rolls.pop())
 
-        while len(rolls) > 0:
-            remaining_failures.append(rolls.popleft())
+            while len(rolls) > 0 and rolls[0] >= success_threshold:
+                remaining_successes.append(rolls.popleft())
 
-        successes_remaining = len(remaining_successes)
+            while len(rolls) > 0:
+                remaining_failures.append(rolls.popleft())
 
-        string_bits = []
+            successes_remaining = len(remaining_successes)
 
-        for roll in removed_successes:
-            string_bits.append('~~{}~~'.format(roll))
+            string_bits = []
 
-        for roll in remaining_successes:
-            string_bits.append('**{}**'.format(roll))
+            for roll in removed_successes:
+                string_bits.append('~~{}~~'.format(roll))
 
-        for roll in remaining_failures:
-            string_bits.append(str(roll))
+            for roll in remaining_successes:
+                string_bits.append('**{}**'.format(roll))
 
-        for roll in removed_ones:
-            string_bits.append('~~1~~')
+            for roll in remaining_failures:
+                string_bits.append(str(roll))
 
-        output_strings.append('  '.join(string_bits))
-        output_strings.append('\n');
+            for roll in removed_ones:
+                string_bits.append('~~1~~')
 
-        remaining_successes_count = len(remaining_successes)
+            output_strings.append('  '.join(string_bits))
+            output_strings.append('\n');
 
-        if one_count > 0 and success_count == 0:
-            output_strings.append('```diff\n- B O T C H E D -\n```')
-        elif successes_remaining == 0:
-            output_strings.append('```css\n[ FAILED ({}) ]\n```'.format(remaining_successes_count))
-        elif successes_remaining >= 5:
-            output_strings.append('```asciidoc\n= P H E N O M I N A L   S U C C E S S  ({}) =\n```'.format(remaining_successes_count))
-        elif successes_remaining == 4:
-            output_strings.append('```cs\n" EXCEPTIONAL SUCCESS ({}) "\n```'.format(remaining_successes_count))
-        elif successes_remaining == 3:
-            output_strings.append('```diff\n+ Complete Success ({}) +\n```'.format(remaining_successes_count))
-        elif successes_remaining == 2:
-            output_strings.append('```bash\n# Moderate Success ({}) #\n```'.format(remaining_successes_count))
-        elif successes_remaining == 1:
-            output_strings.append('```\nMarginal success... ({})\n```'.format(remaining_successes_count))
+            remaining_successes_count = len(remaining_successes)
 
-        await self.bot.say(''.join(output_strings))
+            if one_count > 0 and success_count == 0:
+                output_strings.append('```diff\n- B O T C H E D -\n```')
+            elif successes_remaining == 0:
+                output_strings.append('```css\n[ FAILED ({}) ]\n```'.format(remaining_successes_count))
+            elif successes_remaining >= 5:
+                output_strings.append('```asciidoc\n= P H E N O M I N A L   S U C C E S S  ({}) =\n```'.format(remaining_successes_count))
+            elif successes_remaining == 4:
+                output_strings.append('```cs\n" EXCEPTIONAL SUCCESS ({}) "\n```'.format(remaining_successes_count))
+            elif successes_remaining == 3:
+                output_strings.append('```diff\n+ Complete Success ({}) +\n```'.format(remaining_successes_count))
+            elif successes_remaining == 2:
+                output_strings.append('```bash\n# Moderate Success ({}) #\n```'.format(remaining_successes_count))
+            elif successes_remaining == 1:
+                output_strings.append('```\nMarginal success... ({})\n```'.format(remaining_successes_count))
+        except Exception as error:
+            output_strings.append('\n')
+            output_strings.append(str(error))
+        finally:
+            await self.bot.say(''.join(output_strings))
 
 def setup(bot):
     bot.add_cog(Pool(bot))
