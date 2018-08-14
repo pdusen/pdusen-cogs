@@ -13,7 +13,6 @@ class Pool:
     async def dice(self, ctx, *, arg):
         """This rolls dice normally"""
         result = dice.roll(arg)
-        result.sort()
 
         output_strings = []
         output_strings.append('Dice roll called by ')
