@@ -73,20 +73,22 @@ class Pool:
         output_strings.append('  '.join(string_bits))
         output_strings.append('\n');
 
+        remaining_successes_count = len(remaining_successes)
+
         if one_count > 0 and success_count == 0:
             output_strings.append('```diff\n- B O T C H E D -\n```')
         elif successes_remaining == 0:
-            output_strings.append('```css\n[ FAILED ({}) ]\n```'.format(success_count))
+            output_strings.append('```css\n[ FAILED ({}) ]\n```'.format(remaining_successes_count))
         elif successes_remaining >= 5:
-            output_strings.append('```asciidoc\n= P H E N O M I N A L   S U C C E S S  ({}) =\n```'.format(success_count))
+            output_strings.append('```asciidoc\n= P H E N O M I N A L   S U C C E S S  ({}) =\n```'.format(remaining_successes_count))
         elif successes_remaining == 4:
-            output_strings.append('```cs\n" EXCEPTIONAL SUCCESS ({})"\n```'.format(success_count))
+            output_strings.append('```cs\n" EXCEPTIONAL SUCCESS ({})"\n```'.format(remaining_successes_count))
         elif successes_remaining == 3:
-            output_strings.append('```diff\n+ Complete Success ({})+\n```'.format(success_count))
+            output_strings.append('```diff\n+ Complete Success ({})+\n```'.format(remaining_successes_count))
         elif successes_remaining == 2:
-            output_strings.append('```bash\n# Moderate Success ({}}#\n```'.format(success_count))
+            output_strings.append('```bash\n# Moderate Success ({}}#\n```'.format(remaining_successes_count))
         elif successes_remaining == 1:
-            output_strings.append('```\nMarginal success... ({})\n```'.format(success_count))
+            output_strings.append('```\nMarginal success... ({})\n```'.format(remaining_successes_count))
 
         await self.bot.say(''.join(output_strings))
 
