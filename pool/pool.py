@@ -20,8 +20,7 @@ class Pool:
             output_strings.append(ctx.message.author.name)
             output_strings.append('.\n')
 
-            await self.bot.say(str(type(result)))
-            if type(result) is list or type(result) is tuple:
+            if type(result) is dice.elements.Roll:
                 result.sort()
                 total = sum(result)
                 output_strings.append(' '.join(result))
