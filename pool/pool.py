@@ -1,4 +1,4 @@
-import discord, re, dice
+import discord, re, dice, collections
 from collections import deque
 from discord.ext import commands
 
@@ -19,7 +19,14 @@ class Pool:
             output_strings.append('Dice roll called by ')
             output_strings.append(ctx.message.author.name)
             output_strings.append('.\n')
-            output_strings.append('Result: {}'.format(str(result)))
+
+            if isinstance(result, collections.Iterable):
+                result.sort()
+                total = sum(result)
+                output_strings.append(' '.join(result))
+                output_strings.append('\nResult: {}'.format(total))
+            else:
+                output_strings.append('Result: {}'.format(str(result)))
         except Exception as error:
             output_strings.append('\n')
             output_strings.append(str(error))
