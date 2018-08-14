@@ -23,7 +23,7 @@ class Pool:
             if type(result) is dice.elements.Roll:
                 result.sort()
                 total = sum(result)
-                output_strings.append(' '.join(str(result)))
+                output_strings.append(' '.join(str(i) for i in result))
                 output_strings.append('\nResult: {}'.format(str(total)))
             else:
                 output_strings.append('Result: {}'.format(str(result)))
