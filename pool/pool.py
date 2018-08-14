@@ -10,6 +10,18 @@ class Pool:
         self.bot = bot
 
     @commands.command(pass_context=True)
+    async def dice(self, ctx, *, arg):
+        """This rolls dice normally"""
+        result = dice.roll(arg)
+        result.sort()
+
+        output_strings = []
+        output_strings.append('Dice roll called by ')
+        output_strings.append(ctx.message.author.name)
+        output_strings.append('.\n')
+        output_strings.append('Result: {}'.format(str(result)))
+
+    @commands.command(pass_context=True)
     async def pool(self, ctx, *, arg):
         """This does stuff!"""
         match = self.pattern.match(arg)
