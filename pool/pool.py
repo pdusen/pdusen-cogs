@@ -86,7 +86,7 @@ class Pool:
         elif successes_remaining == 3:
             output_strings.append('```diff\n+ Complete Success ({}) +\n```'.format(remaining_successes_count))
         elif successes_remaining == 2:
-            output_strings.append('```bash\n# Moderate Success ({}} #\n```'.format(remaining_successes_count))
+            output_strings.append('```bash\n# Moderate Success ({}) #\n```'.format(remaining_successes_count))
         elif successes_remaining == 1:
             output_strings.append('```\nMarginal success... ({})\n```'.format(remaining_successes_count))
 
