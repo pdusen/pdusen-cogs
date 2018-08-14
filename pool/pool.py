@@ -1,4 +1,4 @@
-import discord, re, dice, collections
+import discord, re, dice, types
 from collections import deque
 from discord.ext import commands
 
@@ -20,7 +20,7 @@ class Pool:
             output_strings.append(ctx.message.author.name)
             output_strings.append('.\n')
 
-            if isinstance(result, collections.Iterable):
+            if type(result) is list or type(result) is tuple:
                 result.sort()
                 total = sum(result)
                 output_strings.append(' '.join(result))
