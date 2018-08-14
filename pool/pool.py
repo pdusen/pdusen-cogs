@@ -24,7 +24,7 @@ class Pool:
                 result.sort()
                 result.reverse()
                 total = sum(result)
-                output_strings.append(' '.join(str(i) for i in result))
+                output_strings.append('  '.join(str(i) for i in result))
                 output_strings.append('\nResult: {}'.format(str(total)))
             else:
                 output_strings.append('Result: {}'.format(str(result)))
